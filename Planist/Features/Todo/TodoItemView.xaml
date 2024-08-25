@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:Planist.Components"
+             xmlns:models="clr-namespace:Planist.Features.Todo.Models"
+             x:Class="Planist.Features.Todo.TodoItemView"
+             x:DataType="models:TodoItemModel">
+    <Border Stroke="{StaticResource CardBorder}">
+
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="4" />
+        </Border.StrokeShape>
+
+        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto" ColumnSpacing="10">
+            <!-- Text -->
+            <Label Grid.Column="0" Text="{Binding Text}" FontSize="12" TextColor="{StaticResource SecondaryDarkText}" />
+
+            <!-- Actions -->
+            <HorizontalStackLayout Grid.Column="1" Spacing="6">
+                <components:PlanistIconButton Source="ico_trash.png" IconSize="16" />
+                <components:PlanistIconButton Source="ico_edit.png" IconSize="16" />
+            </HorizontalStackLayout>
+        </Grid>
+
+
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer Tapped="HandleItemTapped" />
+        </Border.GestureRecognizers>
+    </Border>
+</ContentView>

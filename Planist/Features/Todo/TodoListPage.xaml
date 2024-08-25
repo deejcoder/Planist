@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Planist.Features.Todo.ViewModels"
+             xmlns:models="clr-namespace:Planist.Features.Todo.Models"
+             xmlns:todo="clr-namespace:Planist.Features.Todo"
+             xmlns:components="clr-namespace:Planist.Components"
+             x:Class="Planist.Features.Todo.TodoListPage"            
+             x:DataType="viewModels:TodoListViewModel"
+             Title="TodoListPage">
+
+    <Grid RowDefinitions="Auto,*">
+        
+        <VerticalStackLayout Grid.Row="0" BindableLayout.ItemsSource="{Binding TodoLists}">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="models:TodoListModel">
+                    <ScrollView Orientation="Horizontal">
+                        <Border StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+
+                            <Border.Shadow>
+                                <Shadow Radius="10" Brush="{StaticResource SecondaryText}" />
+                            </Border.Shadow>
+
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                </DataTrigger>
+
+                                <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource Secondary}" />
+                                </DataTrigger>
+                            </Border.Triggers>
+
+                            <!-- Todo List Name -->
+                            <Label Text="{Binding Name}" FontSize="16">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+                                    </DataTrigger>
+
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="False">
+                                        <Setter Property="TextColor" Value="{StaticResource SecondaryText}" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+
+                        </Border>
+                    </ScrollView>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </VerticalStackLayout>
+
+        <!-- List the todo items for the currently selected list -->
+        <todo:TodoListView Grid.Row="1" ItemsSource="{Binding SelectedTodoList.TodoItems}" ItemTappedCommand="{Binding TodoItemTappedCommand}" />
+
+        <ContentView ZIndex="100" HorizontalOptions="End" VerticalOptions="End" Grid.Row="1">
+            <components:PlanistIconButton Source="ico_plus.png" IconSize="16" Command="{Binding AddListTappedCommand}" />
+        </ContentView>
+
+    </Grid>
+
+</ContentPage>
